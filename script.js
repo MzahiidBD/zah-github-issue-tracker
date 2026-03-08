@@ -1,96 +1,149 @@
-let issues = [];
+let issues=[];
 
 function login(){
-let user = document.getElementById("username").value;
-let pass = document.getElementById("password").value;
 
-if(user==="admin" && pass==="admin123"){
+let u=document.getElementById("username").value;
+let p=document.getElementById("password").value;
+
+if(u==="admin" && p==="admin123"){
+
 document.getElementById("loginPage").style.display="none";
 document.getElementById("dashboard").style.display="block";
+
 loadIssues();
+
 }else{
-alert("Wrong username or password");
-}
+alert("Wrong credentials");
 }
 
-// Load issues from API
+}
+
+
 async function loadIssues(){
+
 document.getElementById("loader").style.display="block";
-let res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
-let data = await res.json();
-issues = data.data;
+
+let res=await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+let data=await res.json();
+
+issues=data.data;
+
 displayIssues(issues);
+
 document.getElementById("loader").style.display="none";
+
 }
 
-// Display issues as cards
+
+function updateCount(data){
+
+document.getElementById("issueCount").innerText=data.length+" Issues";
+
+}
+
+
 function displayIssues(data){
-let container = document.getElementById("issueContainer");
+
+updateCount(data);
+
+let container=document.getElementById("issueContainer");
+
 container.innerHTML="";
+
 data.forEach(issue=>{
-let card = document.createElement("div");
+
+let card=document.createElement("div");
+
 card.classList.add("issue-card");
+
 if(issue.status==="closed") card.classList.add("closed");
 
-// Card HTML for Figma style
-card.innerHTML = `
-<div class="card-top">
-<div class="status-icon ${issue.status}">
-${issue.status==="open"?"🟢":"🟣"}
-</div>
-<span class="priority ${issue.priority.toLowerCase()}">
-${issue.priority}
-</span>
-</div>
+card.innerHTML=`
+
+<span class="priority ${issue.priority.toLowerCase()}">${issue.priority}</span>
+
 <h3 class="issue-title">${issue.title}</h3>
+
 <p class="issue-desc">${issue.description}</p>
-<div class="labels">
+
+<div>
+
 <span class="label bug">BUG</span>
 <span class="label help">HELP WANTED</span>
-<span class="label enhancement">ENHANCEMENT</span>
+
 </div>
-<div class="issue-footer">
-<p>#${issue.id} by ${issue.author}</p>
-<p>${issue.createdAt}</p>
-</div>
+
+<p style="margin-top:10px;font-size:12px;color:#777">
+#${issue.id} by ${issue.author}<br>
+${issue.createdAt}
+</p>
+
 `;
 
-card.onclick = ()=> openModal(issue);
+card.onclick=()=>openModal(issue);
+
 container.appendChild(card);
+
 });
+
 }
 
-// Tabs
-const tabs = document.querySelectorAll(".tabs button");
-tabs.forEach(btn=>{
-btn.addEventListener("click",()=>{
-tabs.forEach(b=>b.classList.remove("active"));
+
+/* TABS */
+
+document.querySelectorAll(".tabs button").forEach(btn=>{
+
+btn.onclick=()=>{
+
+document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
 btn.classList.add("active");
-let text=btn.innerText;
-if(text==="All") displayIssues(issues);
-if(text==="Open") displayIssues(issues.filter(i=>i.status==="open"));
-if(text==="Closed") displayIssues(issues.filter(i=>i.status==="closed"));
-});
+
+let t=btn.innerText;
+
+if(t==="All") displayIssues(issues);
+
+if(t==="Open") displayIssues(issues.filter(i=>i.status==="open"));
+
+if(t==="Closed") displayIssues(issues.filter(i=>i.status==="closed"));
+
+};
+
 });
 
-// Search
+
+/* SEARCH */
+
 document.getElementById("searchInput").addEventListener("keyup",async function(){
+
 let text=this.value;
+
 let res=await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
 let data=await res.json();
+
 displayIssues(data.data);
+
 });
 
-// Modal
+
+/* MODAL */
+
 function openModal(issue){
+
 document.getElementById("issueModal").style.display="flex";
+
 document.getElementById("modalTitle").innerText=issue.title;
 document.getElementById("modalDesc").innerText=issue.description;
 document.getElementById("modalAuthor").innerText=issue.author;
-document.getElementById("modalPriority").innerText=issue.priority;
-document.getElementById("modalStatus").innerText=issue.status;
 document.getElementById("modalDate").innerText=issue.createdAt;
+document.getElementById("modalAssignee").innerText=issue.author;
+document.getElementById("modalPriority").innerText=issue.priority;
+
+document.getElementById("modalStatus").innerText=issue.status;
+
 }
+
 function closeModal(){
+
 document.getElementById("issueModal").style.display="none";
+
 }

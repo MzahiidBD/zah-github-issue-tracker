@@ -1,149 +1,103 @@
 let issues=[];
 
 function login(){
+  let u=document.getElementById("username").value;
+  let p=document.getElementById("password").value;
 
-let u=document.getElementById("username").value;
-let p=document.getElementById("password").value;
-
-if(u==="admin" && p==="admin123"){
-
-document.getElementById("loginPage").style.display="none";
-document.getElementById("dashboard").style.display="block";
-
-loadIssues();
-
-}else{
-alert("Wrong credentials");
+  if(u==="admin" && p==="admin123"){
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    loadIssues();
+  }else{
+    alert("Wrong credentials");
+  }
 }
-
-}
-
 
 async function loadIssues(){
-
-document.getElementById("loader").style.display="block";
-
-let res=await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
-let data=await res.json();
-
-issues=data.data;
-
-displayIssues(issues);
-
-document.getElementById("loader").style.display="none";
-
+  document.getElementById("loader").style.display="block";
+  let res=await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+  let data=await res.json();
+  issues=data.data;
+  displayIssues(issues);
+  document.getElementById("loader").style.display="none";
 }
-
 
 function updateCount(data){
-
-document.getElementById("issueCount").innerText=data.length+" Issues";
-
+  document.getElementById("issueCount").innerText=data.length+" Issues";
 }
-
 
 function displayIssues(data){
+  updateCount(data);
+  let container=document.getElementById("issueContainer");
+  container.innerHTML="";
 
-updateCount(data);
+  data.forEach(issue=>{
+    let card=document.createElement("div");
+    card.classList.add("issue-card");
 
-let container=document.getElementById("issueContainer");
+    let status = issue.status.toLowerCase();
+    if(status==="closed") card.classList.add("closed");
 
-container.innerHTML="";
+    let icon = status==="open" ? "assets/Open-Status.png" : "assets/Closed-Status.png";
 
-data.forEach(issue=>{
+    card.innerHTML=`
+      <div class="card-top">
+        <img src="${icon}" class="card-icon">
+        <span class="priority ${issue.priority.toLowerCase()}">${issue.priority}</span>
+      </div>
+      <h3 class="issue-title">${issue.title}</h3>
+      <p class="issue-desc">${issue.description}</p>
+      <div>
+        <span class="label bug">BUG</span>
+        <span class="label help">HELP WANTED</span>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:#777">
+        #${issue.id} by ${issue.author}<br>
+        ${issue.createdAt}
+      </p>
+    `;
 
-let card=document.createElement("div");
-
-card.classList.add("issue-card");
-
-if(issue.status==="closed") card.classList.add("closed");
-
-card.innerHTML=`
-
-<span class="priority ${issue.priority.toLowerCase()}">${issue.priority}</span>
-
-<h3 class="issue-title">${issue.title}</h3>
-
-<p class="issue-desc">${issue.description}</p>
-
-<div>
-
-<span class="label bug">BUG</span>
-<span class="label help">HELP WANTED</span>
-
-</div>
-
-<p style="margin-top:10px;font-size:12px;color:#777">
-#${issue.id} by ${issue.author}<br>
-${issue.createdAt}
-</p>
-
-`;
-
-card.onclick=()=>openModal(issue);
-
-container.appendChild(card);
-
-});
-
+    card.onclick=()=>openModal(issue);
+    container.appendChild(card);
+  });
 }
 
-
 /* TABS */
-
 document.querySelectorAll(".tabs button").forEach(btn=>{
-
-btn.onclick=()=>{
-
-document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-
-let t=btn.innerText;
-
-if(t==="All") displayIssues(issues);
-
-if(t==="Open") displayIssues(issues.filter(i=>i.status==="open"));
-
-if(t==="Closed") displayIssues(issues.filter(i=>i.status==="closed"));
-
-};
-
+  btn.onclick=()=>{
+    document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    let t=btn.innerText;
+    if(t==="All") displayIssues(issues);
+    if(t==="Open") displayIssues(issues.filter(i=>i.status.toLowerCase()==="open"));
+    if(t==="Closed") displayIssues(issues.filter(i=>i.status.toLowerCase()==="closed"));
+  };
 });
-
 
 /* SEARCH */
-
 document.getElementById("searchInput").addEventListener("keyup",async function(){
-
-let text=this.value;
-
-let res=await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
-let data=await res.json();
-
-displayIssues(data.data);
-
+  let text=this.value;
+  let res=await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
+  let data=await res.json();
+  displayIssues(data.data);
 });
 
-
 /* MODAL */
-
 function openModal(issue){
+  document.getElementById("issueModal").style.display="flex";
+  document.getElementById("modalTitle").innerText=issue.title;
+  document.getElementById("modalDesc").innerText=issue.description;
+  document.getElementById("modalAuthor").innerText=issue.author;
+  document.getElementById("modalDate").innerText=issue.createdAt;
+  document.getElementById("modalAssignee").innerText=issue.author;
 
-document.getElementById("issueModal").style.display="flex";
+  let p=document.getElementById("modalPriority");
+  p.innerText=issue.priority;
+  p.className="priority "+issue.priority.toLowerCase();
 
-document.getElementById("modalTitle").innerText=issue.title;
-document.getElementById("modalDesc").innerText=issue.description;
-document.getElementById("modalAuthor").innerText=issue.author;
-document.getElementById("modalDate").innerText=issue.createdAt;
-document.getElementById("modalAssignee").innerText=issue.author;
-document.getElementById("modalPriority").innerText=issue.priority;
-
-document.getElementById("modalStatus").innerText=issue.status;
-
+  document.getElementById("modalStatus").innerText=issue.status;
 }
 
 function closeModal(){
-
-document.getElementById("issueModal").style.display="none";
-
+  document.getElementById("issueModal").style.display="none";
 }

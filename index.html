@@ -5,151 +5,100 @@
   <meta charset="UTF-8">
   <title>GitHub Issues Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- LOGIN PAGE -->
-
-<section id="loginPage" class="login-section">
-
-  <div class="login-box">
-
-    <img src="assets/github-logo.png" class="login-logo">
-
-    <h2>GitHub Issues Tracker</h2>
-    <p class="subtitle">Sign in to manage your issues</p>
-
-    <input id="username" type="text" placeholder="Enter Username">
-    <small class="hint">Default: admin</small>
-
-    <input id="password" type="password" placeholder="Enter Password">
-    <small class="hint">Default: admin123</small>
-
-    <button onclick="login()" class="login-btn">Sign In</button>
-
-    <div class="or">OR</div>
-
-    <div class="demo-box">
-      <p><b>Demo Credentials</b></p>
-      <p>Username: admin</p>
-      <p>Password: admin123</p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- DASHBOARD -->
-
-<div id="dashboard" style="display:none">
-
-  <nav class="navbar">
-
-    <div class="nav-left">
-      <img src="assets/github-logo.png">
-      <h3>GitHub Issues Tracker</h3>
-    </div>
-
-    <div class="nav-right">
-      <input id="searchInput" placeholder="Search issues...">
-      <button class="new-btn">+ New Issue</button>
-    </div>
-
-  </nav>
-
-
-  <section class="issue-section">
-
-    <!-- TABS -->
-
-    <div class="tabs">
-      <button class="active">All</button>
-      <button>Open</button>
-      <button>Closed</button>
-    </div>
-
-
-    <!-- ISSUE HEADER -->
-
-    <div class="issue-header">
-
-      <div class="issue-title-box">
-
-        <div class="issue-icon">⚙</div>
-
-        <div>
-          <h3 id="issueCount">0 Issues</h3>
-          <p>Track and manage your project issues</p>
-        </div>
-
+  <!-- LOGIN PAGE -->
+  <section id="loginPage" class="login-section">
+    <div class="login-box">
+      <img src="assets/github-logo.png" class="login-logo">
+      <h2>GitHub Issues Tracker</h2>
+      <p class="subtitle">Sign in to manage your issues</p>
+      <input id="username" type="text" placeholder="Enter Username">
+      <small class="hint">Default: admin</small>
+      <input id="password" type="password" placeholder="Enter Password">
+      <small class="hint">Default: admin123</small>
+      <button onclick="login()" class="login-btn">Sign In</button>
+      <div class="or">OR</div>
+      <div class="demo-box">
+        <p><b>Demo Credentials</b></p>
+        <p>Username: admin</p>
+        <p>Password: admin123</p>
       </div>
-
-      <div class="issue-status">
-
-        <span class="dot open"></span> Open
-        <span class="dot closed"></span> Closed
-
-      </div>
-
     </div>
-
-
-    <div id="loader" class="loader"></div>
-
-    <div id="issueContainer" class="issue-grid"></div>
-
   </section>
 
-</div>
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <nav class="navbar">
+      <div class="nav-left">
+        <img src="assets/github-logo.png">
+        <h3>GitHub Issues Tracker</h3>
+      </div>
+      <div class="nav-right">
+        <input id="searchInput" placeholder="Search issues...">
+        <button class="new-btn">+ New Issue</button>
+      </div>
+    </nav>
 
-
-<!-- MODAL -->
-
-<div id="issueModal" class="modal">
-
-  <div class="modal-content">
-
-    <h2 id="modalTitle"></h2>
-
-    <div class="modal-top">
-      <span id="modalStatus" class="status-badge"></span>
-      <span>Opened by <b id="modalAuthor"></b></span>
-      <span id="modalDate"></span>
-    </div>
-
-    <div class="modal-labels">
-      <span class="label bug">BUG</span>
-      <span class="label help">HELP WANTED</span>
-    </div>
-
-    <p id="modalDesc"></p>
-
-    <div class="modal-info">
-
-      <div>
-        <p>Assignee:</p>
-        <b id="modalAssignee"></b>
+    <section class="issue-section">
+      <div class="tabs">
+        <button class="active">All</button>
+        <button>Open</button>
+        <button>Closed</button>
       </div>
 
-      <div>
-        <p>Priority:</p>
-        <span id="modalPriority" class="priority"></span>
+      <div class="issue-header">
+        <div class="issue-title-box">
+          <div class="issue-icon">
+            <img src="assets/Aperture.png" alt="icon">
+          </div>
+          <div>
+            <h3 id="issueCount">0 Issues</h3>
+            <p>Track and manage your project issues</p>
+          </div>
+        </div>
+        <div class="issue-status">
+          <span class="dot open"></span> Open
+          <span class="dot closed"></span> Closed
+        </div>
       </div>
 
-    </div>
-
-    <button onclick="closeModal()" class="close-btn">Close</button>
-
+      <div id="loader" class="loader">Loading issues...</div>
+      <div id="issueContainer" class="issue-grid"></div>
+    </section>
   </div>
 
-</div>
+  <!-- MODAL -->
+  <div id="issueModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <div class="modal-top">
+        <span id="modalStatus"></span>
+        <span>Opened by <b id="modalAuthor"></b></span>
+        <span id="modalDate"></span>
+      </div>
+      <div class="modal-labels">
+        <span class="label bug">BUG</span>
+        <span class="label help">HELP WANTED</span>
+      </div>
+      <p id="modalDesc"></p>
+      <div class="modal-info">
+        <div>
+          <p>Assignee:</p>
+          <b id="modalAssignee"></b>
+        </div>
+        <div>
+          <p>Priority:</p>
+          <span id="modalPriority" class="priority"></span>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="close-btn">Close</button>
+    </div>
+  </div>
 
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>

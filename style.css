@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -33,30 +34,30 @@ body {
 .subtitle {
   color: #838383;
   margin-bottom: 20px;
-  line-height: 30px;
 }
 
-.login-box label{
-  display:block;
-  text-align:left;
-  margin-top:10px;
-  font-weight:600;
-}
-.login-box input{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  border:1px solid #ccc;
-  border-radius:5px;
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+  font-weight: 600;
 }
 
-.hint{
-  font-size:13px;
-  color:#6a00ff;
-  display:block;
-  margin-top:3px;
-  margin-bottom:10px;
-  text-align:left;
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.hint {
+  font-size: 13px;
+  color: #6a00ff;
+  display: block;
+  margin-top: 3px;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .login-btn {
@@ -70,7 +71,7 @@ body {
   cursor: pointer;
 }
 
- .or {
+.or {
   display: flex;
   align-items: center;
   text-align: center;
@@ -126,23 +127,23 @@ body {
   gap: 10px;
 }
 
-.search-box{
-  position:relative;
+.search-box {
+  position: relative;
 }
 
-.search-box i{
-  position:absolute;
-  left:10px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#777;
+.search-box i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
 }
 
-.search-box input{
-  padding:8px 8px 8px 30px;
-  width:220px;
-  border:1px solid #ccc;
-  border-radius:5px;
+.search-box input {
+  padding: 8px 8px 8px 30px;
+  width: 220px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .new-btn {
@@ -199,8 +200,8 @@ body {
 }
 
 .issue-icon img {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
 }
 
 .dot {
@@ -220,9 +221,29 @@ body {
   background: purple;
 }
 
+/* Loading Spinner */
 .loader {
   text-align: center;
   padding: 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #6a00ff;
+  border-radius: 50%;
+  margin: 10px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* GRID */
@@ -254,7 +275,6 @@ body {
 
 .card-icon {
   width: 18px;
-  height: 18px;
 }
 
 .issue-title {
@@ -327,7 +347,7 @@ body {
 }
 
 .modal-info {
-  margin-top: 20px;
+  margin-top: 50px;
   background: #f3f3f3;
   padding: 15px;
   border-radius: 10px;

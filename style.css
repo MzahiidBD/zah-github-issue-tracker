@@ -23,7 +23,6 @@ body {
   padding: 30px;
   text-align: center;
   border-radius: 10px;
-  border: 2px dashed #a6d4ff;
 }
 
 .login-logo {
@@ -32,23 +31,32 @@ body {
 }
 
 .subtitle {
-  color: #777;
+  color: #838383;
   margin-bottom: 20px;
+  line-height: 30px;
 }
 
-.login-box input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.login-box label{
+  display:block;
+  text-align:left;
+  margin-top:10px;
+  font-weight:600;
+}
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border:1px solid #ccc;
+  border-radius:5px;
 }
 
-.hint {
-  font-size: 12px;
-  color: #6a00ff;
-  display: block;
-  margin-bottom: 5px;
+.hint{
+  font-size:13px;
+  color:#6a00ff;
+  display:block;
+  margin-top:3px;
+  margin-bottom:10px;
+  text-align:left;
 }
 
 .login-btn {

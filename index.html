@@ -6,6 +6,7 @@
   <title>GitHub Issues Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
@@ -24,8 +25,8 @@
       <small class="hint">Default: admin123</small>
       <button onclick="login()" class="login-btn">Sign In</button>
       <div class="or">OR</div>
+      <p style="color: rgb(117, 117, 117); margin-bottom: 10px;font-size: small;">Demo Credentials:</p>
       <div class="demo-box">
-        <p><b>Demo Credentials</b></p>
         <p>Username: admin</p>
         <p>Password: admin123</p>
       </div>
@@ -40,7 +41,10 @@
         <h3>GitHub Issues Tracker</h3>
       </div>
       <div class="nav-right">
+        <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
         <input id="searchInput" placeholder="Search issues...">
+        </div>
         <button class="new-btn">+ New Issue</button>
       </div>
     </nav>

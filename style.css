@@ -70,9 +70,27 @@ body {
   cursor: pointer;
 }
 
-.or {
-  margin: 15px 0;
+ .or {
+  display: flex;
+  align-items: center;
+  text-align: center;
   color: #777;
+  margin: 15px 0;
+}
+
+.or::before,
+.or::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.or::before {
+  margin-right: 10px;
+}
+
+.or::after {
+  margin-left: 10px;
 }
 
 .demo-box {
@@ -80,6 +98,7 @@ body {
   padding: 10px;
   border-radius: 6px;
   font-size: 13px;
+  font-weight: 600;
 }
 
 /* NAVBAR */
@@ -107,11 +126,23 @@ body {
   gap: 10px;
 }
 
-.nav-right input {
-  padding: 8px;
-  width: 220px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.search-box{
+  position:relative;
+}
+
+.search-box i{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#777;
+}
+
+.search-box input{
+  padding:8px 8px 8px 30px;
+  width:220px;
+  border:1px solid #ccc;
+  border-radius:5px;
 }
 
 .new-btn {
